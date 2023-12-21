@@ -34,7 +34,8 @@ app.use(helmet({
     }
   }
 }));
-app.use(nocache());
+
+app.use(helmet.noCache());
 
 // Index page (static HTML)
 app.route('/')
