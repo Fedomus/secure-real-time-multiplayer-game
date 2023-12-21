@@ -63,8 +63,19 @@ class Player {
     return false
   }
 
-  calculateRank(arr) {
-
+  calculateRank(players, player) {
+    players.sort((a, b) => {
+        if (a.score < b.score) {
+            return 1;
+          }
+          if (a.score > b.score) {
+            return -1;
+          }
+          return 0;
+    })
+    let position = players.findIndex(p => p.id == player.id)
+    
+    return position + 1;
   }
 }
 

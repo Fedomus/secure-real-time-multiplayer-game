@@ -96,24 +96,13 @@ const game = {
         context.drawImage(coinImage, coin.x, coin.y, coinWidth, coinHeight)
     },
 
-    calculateRank(){
-        opponents.push(player);
-        opponents.sort((a, b) => {
-            if (a.score < b.score) {
-                return 1;
-              }
-              if (a.score > b.score) {
-                return -1;
-              }
-              return 0;
-        })
-        let position = opponents.findIndex(p => p.id == player.id)
-
-        rankPosition = position + 1;
-
+    setRank: () => {
+        opponents.push(player)
+        let players = opponents
         opponents = opponents.filter(opp => opp.id != player.id)
+        rankPosition = player.calculateRank(players, player)
+        
     }
-
 }
 
 let keysPressed = {};
@@ -198,7 +187,7 @@ const renderGame = () => {
 
             game.setCoin()
             game.drawCoin()
-            game.calculateRank()
+            game.setRank()
         }
     }
 }
@@ -227,7 +216,7 @@ socket.on("updatePlayers", (players) => {
         .map(p => {
             return new Player(p)
         })
-    game.calculateRank()    
+    game.setRank()    
     requestAnimationFrame(renderGame)
 });
 
